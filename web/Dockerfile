@@ -1,6 +1,6 @@
 FROM  alpine:latest as build
 WORKDIR /
-COPY ./auto_home1_quickstart_on_prestashop_1.7.2.2.zip .
+COPY ./web/auto_quickstart/auto_home1_quickstart_on_prestashop_1.7.2.2.zip .
 RUN unzip -q auto_home1_quickstart_on_prestashop_1.7.2.2.zip
 
 FROM prestashop/prestashop:1.7.2.2
