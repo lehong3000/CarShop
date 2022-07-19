@@ -1,0 +1,53 @@
+version: '3.1'
+volumes:
+    web-vol:
+    db-vol:
+networks:
+    web-nw:
+    db-nw:
+services:
+    db:
+        image: mysql:5.7.38-debian
+        restart: always
+        environment:
+            MYSQL_DATABASE: shop_db
+            MYSQL_USER: shop_user
+            MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+            MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+        volumes:
+            - db-vol:/var/lib/mysql
+        networks:
+            - web-nw
+            - db-nw
+    web:
+        image: buffalo
+        build: ./web
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - type: volume
+              source: web-vol
+              target: /var/www/html
+            #- type: bind
+            #  source: ./volume
+            #  target: /target
+            #  read_only: true
+        depends_on:
+            - db
+        networks:
+            - web-nw
+        links:
+            - "db:db-host"
+    phpmyadmin:
+        image: phpmyadmin:5.2.0
+        restart: always
+        ports:
+            - 8080:80
+        environment:
+            PMA_ARBITRARY: 0
+            PMA_HOST: db
+        depends_on:
+            - db
+        networks:
+            - db-nw
