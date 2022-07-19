@@ -20,7 +20,7 @@ services:
             - web-nw
             - db-nw
     web:
-        image: buffalo
+        image: buffalo_auto
         build: 
             context: ./web
             dockerfile: ./Dockerfile
