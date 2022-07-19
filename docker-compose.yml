@@ -21,7 +21,9 @@ services:
             - db-nw
     web:
         image: buffalo
-        build: ./web
+        build: 
+            context: ./web
+            dockerfile: ./Dockerfile
         restart: always
         ports:
             - 80:80
