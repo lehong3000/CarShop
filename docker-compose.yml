@@ -30,21 +30,19 @@ services:
         ports:
             - 80:80
         volumes:
-            - ../buffalo_auto:/var/www
             - type: volume
               source: web-vol
               target: /var/www/html
-            #- type: bind
-            #  source: ./volume
-            #  target: /target
-            #  read_only: true
-
+            - type: bind
+              source: ../buffalo_auto/source
+              target: /www-dev
         depends_on:
             - db
         networks:
             - web-nw
         links:
             - "db:db-host"
+        #command: ["bash", "-c", "cp -R /var/www/html/* /www-dev && /tmp/docker_run.sh"]
     phpmyadmin:
         image: phpmyadmin:5.2.0
         restart: always
