@@ -30,21 +30,7 @@ services:
         ports:
             - 80:80
         volumes:
-            #- ../buffalo_auto/admin:/var/www/html/admin
-            #- ../buffalo_auto/app:/var/www/html/app
-            #- ../buffalo_auto/classes:/var/www/html/classes
-            #- ../buffalo_auto/config:/var/www/html/config
-            #- ../buffalo_auto/controllers:/var/www/html/controllers
-            #- ../buffalo_auto/js:/var/www/html/js
-            #- ../buffalo_auto/localization:/var/www/html/localization
-            #- ../buffalo_auto/mails:/var/www/html/mails
-            #- ../buffalo_auto/modules:/var/www/html/modules
-            #- ../buffalo_auto/override:/var/www/html/override
-            #- ../buffalo_auto/pdf:/var/www/html/pdf
-            #- ../buffalo_auto/src:/var/www/html/src
-            #- ../buffalo_auto/themes:/var/www/html/themes
-            #- ../buffalo_auto/tools:/var/www/html/tools
-            #- ../buffalo_auto/translations:/var/www/html/translations
+            - ../buffalo_auto:/var/www
             - type: volume
               source: web-vol
               target: /var/www/html
