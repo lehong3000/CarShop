@@ -1,0 +1,49 @@
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 339a63c..39160dd 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -1,6 +1,6 @@
+ version: '3.1'
+ volumes:
+-    web-vol:
++    #web-vol:
+     db-vol:
+ networks:
+     web-nw:
+@@ -29,20 +29,28 @@ services:
+         restart: always
+         ports:
+             - 80:80
+-        volumes:
+-            - type: volume
+-              source: web-vol
+-              target: /var/www/html
+-            - type: bind
+-              source: ../buffalo_auto/source
+-              target: /www-dev
++        #volumes:
++        #    - type: volume
++        #      source: web-vol
++        #      target: /var/www/html
++        #    - type: bind
++        #      source: ../buffalo_auto/source
++        #      target: /www-dev
+         depends_on:
+             - db
+         networks:
+             - web-nw
+         links:
+             - "db:db-host"
+-        #command: ["bash", "-c", "cp -R /var/www/html/* /www-dev && /tmp/docker_run.sh"]
++        working_dir: /home
++        command: ["sh", "-c", "
++            sed -i 's/DocumentRoot \\/var\\/www\\/html/DocumentRoot \\/home\\/buffalo_auto\\/auto_store_home1_qs/g' /etc/apache2/sites-available/000-default.conf &&
++            cd /home &&
++                ([ -d /home/buffalo_auto/ ] && cd buffalo_auto && git pull https://${GIT_TOKEN}@github.com/lehong3000/buffalo_auto.git || git clone https://${GIT_TOKEN}@github.com/lehong3000/buffalo_auto.git) && 
++            cd /home &&
++            chmod 777 buffalo_auto/auto_store_home1_qs &&
++            chown -R www-data:www-data buffalo_auto/auto_store_home1_qs &&
++            apache2-foreground"]
+     phpmyadmin:
+         image: phpmyadmin:5.2.0
+         restart: always
